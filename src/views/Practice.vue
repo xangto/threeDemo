@@ -1,6 +1,12 @@
 <template>
-  <div ref="container_outer" class="h-full relative">
-    <div ref="container" class="w-full h-full"></div>
+  <div
+    ref="container_outer"
+    class="h-full relative"
+  >
+    <div
+      ref="container"
+      class="w-full h-full relative"
+    ></div>
     <div class="absolute left-6 top-4">
       <el-button @click="handleFullScreen">{{ isFullScreen ? '退出全屏' : '全屏' }}</el-button>
     </div>
@@ -8,8 +14,8 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, onUnmounted, ref, useTemplateRef} from 'vue'
-import {useThree} from '@/composables/useThree'
+import { onMounted, onUnmounted, ref, useTemplateRef } from 'vue'
+import { useThree } from '@/composables/useThree'
 // import {type WebGLRenderer} from "three"
 
 const container = useTemplateRef('container')

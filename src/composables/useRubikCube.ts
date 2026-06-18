@@ -4,13 +4,13 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
 /** 魔方六个面的颜色（标准配色） */
 const COLORS = {
-  right: 0xb71234,   // 红 +X
-  left: 0xff5800,    // 橙 -X
-  up: 0xffffff,      // 白 +Y
-  down: 0xffd500,    // 黄 -Y
-  front: 0x009b48,   // 绿 +Z
-  back: 0x0046ad,    // 蓝 -Z
-  inner: 0x111111,   // 内部面黑色
+  right: 0xb71234, // 红 +X
+  left: 0xff5800, // 橙 -X
+  up: 0xffffff, // 白 +Y
+  down: 0xffd500, // 黄 -Y
+  front: 0x009b48, // 绿 +Z
+  back: 0x0046ad, // 蓝 -Z
+  inner: 0x111111, // 内部面黑色
 }
 
 const CUBIE_SIZE = 0.85
@@ -29,7 +29,12 @@ export function useRubikCube(container: HTMLDivElement) {
   const scene = new THREE.Scene()
   scene.background = new THREE.Color(0x1a1a2e)
 
-  const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100)
+  const camera = new THREE.PerspectiveCamera(
+    45,
+    container.clientWidth / container.clientHeight,
+    0.1,
+    100,
+  )
   camera.position.set(6, 5, 8)
   camera.lookAt(0, 0, 0)
 
@@ -65,21 +70,21 @@ export function useRubikCube(container: HTMLDivElement) {
   function createFaceMaterials(x: number, y: number, z: number): THREE.MeshStandardMaterial[] {
     const mat = (color: number) => new THREE.MeshStandardMaterial({ color, roughness: 0.4 })
     return [
-      mat(x === 1 ? COLORS.right : COLORS.inner),   // +X
-      mat(x === -1 ? COLORS.left : COLORS.inner),    // -X
-      mat(y === 1 ? COLORS.up : COLORS.inner),       // +Y
-      mat(y === -1 ? COLORS.down : COLORS.inner),    // -Y
-      mat(z === 1 ? COLORS.front : COLORS.inner),    // +Z
-      mat(z === -1 ? COLORS.back : COLORS.inner),    // -Z
+      mat(x === 1 ? COLORS.right : COLORS.inner), // +X
+      mat(x === -1 ? COLORS.left : COLORS.inner), // -X
+      mat(y === 1 ? COLORS.up : COLORS.inner), // +Y
+      mat(y === -1 ? COLORS.down : COLORS.inner), // -Y
+      mat(z === 1 ? COLORS.front : COLORS.inner), // +Z
+      mat(z === -1 ? COLORS.back : COLORS.inner), // -Z
     ]
   }
 
   /** 构建魔方 */
   function buildCube() {
-    cubies.forEach((c) => {
+    cubies.forEach(c => {
       cubeGroup.remove(c)
       c.geometry.dispose()
-      if (Array.isArray(c.material)) c.material.forEach((m) => m.dispose())
+      if (Array.isArray(c.material)) c.material.forEach(m => m.dispose())
     })
     cubies.length = 0
     cubeGroup.rotation.set(0, 0, 0)
@@ -107,7 +112,7 @@ export function useRubikCube(container: HTMLDivElement) {
   function getFaceCubies(axis: 'x' | 'y' | 'z', layer: number): THREE.Mesh[] {
     const threshold = 0.5
     const target = layer * SPACING
-    return cubies.filter((c) => {
+    return cubies.filter(c => {
       const pos = new THREE.Vector3()
       c.getWorldPosition(pos)
       cubeGroup.worldToLocal(pos)
@@ -122,14 +127,17 @@ export function useRubikCube(container: HTMLDivElement) {
     angle: number,
     duration = 250,
   ): Promise<void> {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       const faceCubies = getFaceCubies(axis, layer)
-      if (faceCubies.length === 0) { resolve(); return }
+      if (faceCubies.length === 0) {
+        resolve()
+        return
+      }
 
       const pivot = new THREE.Group()
       cubeGroup.add(pivot)
 
-      faceCubies.forEach((c) => {
+      faceCubies.forEach(c => {
         const wp = c.getWorldPosition(new THREE.Vector3())
         const wq = c.getWorldQuaternion(new THREE.Quaternion())
         cubeGroup.worldToLocal(wp)
@@ -143,7 +151,11 @@ export function useRubikCube(container: HTMLDivElement) {
       })
 
       const start = performance.now()
-      const axisVec = new THREE.Vector3(axis === 'x' ? 1 : 0, axis === 'y' ? 1 : 0, axis === 'z' ? 1 : 0)
+      const axisVec = new THREE.Vector3(
+        axis === 'x' ? 1 : 0,
+        axis === 'y' ? 1 : 0,
+        axis === 'z' ? 1 : 0,
+      )
 
       function step(now: number) {
         const p = Math.min((now - start) / duration, 1)
@@ -152,7 +164,7 @@ export function useRubikCube(container: HTMLDivElement) {
         if (p < 1) {
           requestAnimationFrame(step)
         } else {
-          faceCubies.forEach((c) => {
+          faceCubies.forEach(c => {
             const wp = c.getWorldPosition(new THREE.Vector3())
             cubeGroup.worldToLocal(wp)
             cubeGroup.attach(c)
@@ -175,7 +187,7 @@ export function useRubikCube(container: HTMLDivElement) {
     for (let i = 0; i < moveCount; i++) {
       const axis = axes[Math.floor(Math.random() * 3)]
       const layer = [-1, 1][Math.floor(Math.random() * 2)]
-      const angle = (Math.random() > 0.5 ? 1 : -1) * Math.PI / 2
+      const angle = ((Math.random() > 0.5 ? 1 : -1) * Math.PI) / 2
       await rotateLayer(axis, layer, angle, 80)
     }
     isAnimating.value = false
@@ -246,20 +258,29 @@ export function useRubikCube(container: HTMLDivElement) {
 
     let axis: 'x' | 'y' | 'z'
     let sign: number
-    if (absX >= absY && absX >= absZ) { axis = 'x'; sign = Math.sign(normalLocal.x) }
-    else if (absY >= absX && absY >= absZ) { axis = 'y'; sign = Math.sign(normalLocal.y) }
-    else { axis = 'z'; sign = Math.sign(normalLocal.z) }
+    if (absX >= absY && absX >= absZ) {
+      axis = 'x'
+      sign = Math.sign(normalLocal.x)
+    } else if (absY >= absX && absY >= absZ) {
+      axis = 'y'
+      sign = Math.sign(normalLocal.y)
+    } else {
+      axis = 'z'
+      sign = Math.sign(normalLocal.z)
+    }
 
     // 确定层：取方块当前在 cubeGroup 局部坐标中该轴的位置
     const localPos = new THREE.Vector3()
     cubie.getWorldPosition(localPos)
     cubeGroup.worldToLocal(localPos)
-    const layer = Math.round((axis === 'x' ? localPos.x : axis === 'y' ? localPos.y : localPos.z) / SPACING)
+    const layer = Math.round(
+      (axis === 'x' ? localPos.x : axis === 'y' ? localPos.y : localPos.z) / SPACING,
+    )
 
     // 角度：顺时针（面对该面看）为 -PI/2 * sign
     // Shift 键反向
     const reverse = e.shiftKey ? -1 : 1
-    const angle = -Math.PI / 2 * sign * reverse
+    const angle = (-Math.PI / 2) * sign * reverse
 
     isAnimating.value = true
     await rotateLayer(axis, layer, angle, 200)
@@ -291,9 +312,9 @@ export function useRubikCube(container: HTMLDivElement) {
     resizeObserver.disconnect()
     renderer.domElement.removeEventListener('pointerdown', onPointerDown)
     renderer.domElement.removeEventListener('pointerup', onPointerUp)
-    cubies.forEach((c) => {
+    cubies.forEach(c => {
       c.geometry.dispose()
-      if (Array.isArray(c.material)) c.material.forEach((m) => m.dispose())
+      if (Array.isArray(c.material)) c.material.forEach(m => m.dispose())
     })
     renderer.dispose()
     if (container.contains(renderer.domElement)) container.removeChild(renderer.domElement)

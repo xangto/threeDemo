@@ -44,9 +44,7 @@ import { House, Box, Grid } from '@element-plus/icons-vue'
 const route = useRoute()
 const router = useRouter()
 
-const menuRoutes = computed(() =>
-  router.options.routes.filter((r) => !r.meta?.hidden),
-)
+const menuRoutes = computed(() => router.options.routes.filter(r => !r.meta?.hidden))
 
 const activeMenu = computed(() => route.path)
 

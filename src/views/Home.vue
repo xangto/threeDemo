@@ -6,8 +6,8 @@
           <span class="font-semibold text-base">📋 概述</span>
         </template>
         <p class="text-gray-600 leading-relaxed">
-          一个基于 Vue 3 + Three.js 的学习项目，使用 Vite 构建，通过 Composable 模式封装 Three.js 逻辑，
-          逐步探索 3D 图形在 Web 前端中的应用。
+          一个基于 Vue 3 + Three.js 的学习项目，使用 Vite 构建，通过 Composable 模式封装 Three.js
+          逻辑， 逐步探索 3D 图形在 Web 前端中的应用。
         </p>
       </el-card>
 
@@ -31,7 +31,9 @@
         <template #header>
           <span class="font-semibold text-base">📂 项目结构</span>
         </template>
-        <pre class="bg-gray-50 rounded-lg p-4 text-sm text-gray-700 border border-gray-100 overflow-x-auto"><code>src/
+        <pre
+          class="bg-gray-50 rounded-lg p-4 text-sm text-gray-700 border border-gray-100 overflow-x-auto"
+        ><code>src/
   ├── main.ts              # 应用入口，注册 Vue Router、Element Plus
   ├── App.vue              # 根布局：侧边菜单 + router-view
   ├── router/
@@ -54,9 +56,19 @@
           size="small"
           stripe
         >
-          <el-table-column prop="name" label="包名" />
-          <el-table-column prop="version" label="版本" width="100" />
-          <el-table-column prop="purpose" label="用途" />
+          <el-table-column
+            prop="name"
+            label="包名"
+          />
+          <el-table-column
+            prop="version"
+            label="版本"
+            width="100"
+          />
+          <el-table-column
+            prop="purpose"
+            label="用途"
+          />
         </el-table>
       </el-card>
     </div>

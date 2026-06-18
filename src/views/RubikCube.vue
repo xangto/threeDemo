@@ -1,15 +1,29 @@
 <template>
   <div class="rubik-page">
-    <div ref="container" class="rubik-page__canvas"></div>
+    <div
+      ref="container"
+      class="rubik-page__canvas"
+    ></div>
 
     <!-- 底部提示栏 -->
     <div class="rubik-page__hint">
       <span class="text-gray-400 text-sm">
-        🖱 点击方块面旋转 &nbsp;|&nbsp; Shift+点击 反向旋转 &nbsp;|&nbsp; 拖拽 旋转视角 &nbsp;|&nbsp; 滚轮 缩放
+        🖱 点击方块面旋转 &nbsp;|&nbsp; Shift+点击 反向旋转 &nbsp;|&nbsp; 拖拽 旋转视角
+        &nbsp;|&nbsp; 滚轮 缩放
       </span>
       <div class="flex gap-2">
-        <el-button size="small" @click="handleScramble" :loading="isAnimating">重新打乱</el-button>
-        <el-button size="small" @click="handleReset" :disabled="isAnimating">重置</el-button>
+        <el-button
+          size="small"
+          @click="handleScramble"
+          :loading="isAnimating"
+          >重新打乱</el-button
+        >
+        <el-button
+          size="small"
+          @click="handleReset"
+          :disabled="isAnimating"
+          >重置</el-button
+        >
       </div>
     </div>
   </div>
@@ -28,7 +42,7 @@ onMounted(() => {
 
   watch(
     () => cube!.isSolved.value,
-    (solved) => {
+    solved => {
       if (solved) {
         ElMessageBox.alert('太棒了！你成功还原了魔方！🎉', '恭喜', {
           confirmButtonText: '再来一局',
@@ -44,8 +58,12 @@ onMounted(() => {
 
 const isAnimating = computed(() => cube?.isAnimating.value ?? false)
 
-function handleScramble() { cube?.scramble() }
-function handleReset() { cube?.reset() }
+function handleScramble() {
+  cube?.scramble()
+}
+function handleReset() {
+  cube?.reset()
+}
 </script>
 
 <style scoped>
