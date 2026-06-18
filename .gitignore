@@ -23,3 +23,8 @@ npm-debug.log*
 
 # 缓存
 *.tsbuildinfo
+
+# 临时文件
+.claude/
+.superpowers/
+docs/
