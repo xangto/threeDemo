@@ -16,6 +16,12 @@ const router = createRouter({
       component: () => import('@/views/Practice.vue'),
       meta: { title: '练习', icon: 'box' },
     },
+    {
+      path: '/rubik-cube',
+      name: 'rubikCube',
+      component: () => import('@/views/RubikCube.vue'),
+      meta: { title: '魔方', icon: 'grid' },
+    },
   ],
 })
 

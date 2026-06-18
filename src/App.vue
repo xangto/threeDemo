@@ -39,21 +39,20 @@
 <script setup lang="ts">
 import { computed, type Component } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { House, Box } from '@element-plus/icons-vue'
+import { House, Box, Grid } from '@element-plus/icons-vue'
 
 const route = useRoute()
 const router = useRouter()
 
-/** 菜单项只取无 hidden 标记的路由 */
 const menuRoutes = computed(() =>
   router.options.routes.filter((r) => !r.meta?.hidden),
 )
 
 const activeMenu = computed(() => route.path)
 
-/** 图标名 → 组件映射，新增路由图标时只需在此扩展 */
 const iconMap: Record<string, Component> = {
   house: House,
   box: Box,
+  grid: Grid,
 }
 </script>
