@@ -73,8 +73,7 @@ export function useCommonGeometry(container: HTMLDivElement) {
     },
   ]
 
-  // 存储所有 mesh 和材质引用，用于清理
-  const meshes: THREE.Mesh[] = []
+  // 存储材质引用，用于清理
   const materials: THREE.Material[] = []
 
   // 批量创建 mesh 并添加到场景
@@ -87,7 +86,6 @@ export function useCommonGeometry(container: HTMLDivElement) {
     const mesh = new THREE.Mesh(item.geometry, material)
     mesh.position.set(...item.position)
     scene.add(mesh)
-    meshes.push(mesh)
     materials.push(material)
   }
 
@@ -127,7 +125,9 @@ export function useCommonGeometry(container: HTMLDivElement) {
   // ---- 清理 ----
   onUnmounted(() => {
     if (animationId) cancelAnimationFrame(animationId)
+    controls.dispose()
     resizeObserver.disconnect()
+    scene.clear()
     renderer.dispose()
     for (const item of geometryItems) {
       item.geometry.dispose()
