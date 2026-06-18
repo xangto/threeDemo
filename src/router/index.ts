@@ -16,6 +16,13 @@ const router = createRouter({
       component: () => import('@/views/Practice.vue'),
       meta: { title: '练习', icon: 'box' },
     },
+    // 基础几何体
+     {
+       path: '/geometry',
+       name: 'geometry',
+       component: () => import('@/views/Geometry.vue'),
+       meta: { title: '基础几何体', icon: 'grid' },
+     },
     {
       path: '/rubik-cube',
       name: 'rubikCube',
