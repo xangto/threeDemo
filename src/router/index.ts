@@ -23,6 +23,13 @@ const router = createRouter({
        component: () => import('@/views/Geometry.vue'),
        meta: { title: '基础几何体', icon: 'grid' },
      },
+    // 常用几何体展示
+    {
+      path: '/geometry-showcase',
+      name: 'geometryShowcase',
+      component: () => import('@/views/GeometryShowcase.vue'),
+      meta: { title: '常用几何体', icon: 'grid' },
+    },
     {
       path: '/rubik-cube',
       name: 'rubikCube',
