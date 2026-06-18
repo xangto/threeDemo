@@ -277,18 +277,18 @@ export function useRubikCube(container: HTMLDivElement) {
     renderer.render(scene, camera)
   }
 
-  // ---- 窗口缩放 ----
-  function onResize() {
+  // ---- 容器尺寸适配（ResizeObserver 覆盖全屏/窗口缩放等所有场景） ----
+  const resizeObserver = new ResizeObserver(() => {
     camera.aspect = container.clientWidth / container.clientHeight
     camera.updateProjectionMatrix()
     renderer.setSize(container.clientWidth, container.clientHeight)
-  }
-  window.addEventListener('resize', onResize)
+  })
+  resizeObserver.observe(container)
 
   // ---- 清理 ----
   onUnmounted(() => {
     if (animationId) cancelAnimationFrame(animationId)
-    window.removeEventListener('resize', onResize)
+    resizeObserver.disconnect()
     renderer.domElement.removeEventListener('pointerdown', onPointerDown)
     renderer.domElement.removeEventListener('pointerup', onPointerUp)
     cubies.forEach((c) => {

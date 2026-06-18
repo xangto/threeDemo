@@ -1,24 +1,39 @@
 <template>
-  <div class="flex flex-col h-full">
-    <div ref="container" class="flex-1"></div>
-    <div class="mt-4">
-      <el-button @click="handleFullScreen">全屏</el-button>
+  <div ref="container_outer" class="h-full relative">
+    <div ref="container" class="w-full h-full"></div>
+    <div class="absolute left-6 top-4">
+      <el-button @click="handleFullScreen">{{ isFullScreen ? '退出全屏' : '全屏' }}</el-button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {onMounted, useTemplateRef} from 'vue'
+import {onMounted, onUnmounted, ref, useTemplateRef} from 'vue'
 import {useThree} from '@/composables/useThree'
-import {type WebGLRenderer} from "three"
+// import {type WebGLRenderer} from "three"
 
 const container = useTemplateRef('container')
-let three_renderer: WebGLRenderer | null = null
+const container_outer = useTemplateRef('container_outer')
+const isFullScreen = ref(false)
+// let three_renderer: WebGLRenderer | null = null
 const handleFullScreen = () => {
-  three_renderer?.domElement.requestFullscreen()
+  if (isFullScreen.value) {
+    document.exitFullscreen()
+  } else {
+    container_outer.value?.requestFullscreen()
+  }
+}
+
+function onFullscreenChange() {
+  isFullScreen.value = !!document.fullscreenElement
 }
 
 onMounted(() => {
-  three_renderer = useThree(<HTMLDivElement>container.value).renderer
+  useThree(<HTMLDivElement>container.value)
+  document.addEventListener('fullscreenchange', onFullscreenChange)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('fullscreenchange', onFullscreenChange)
 })
 </script>

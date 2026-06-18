@@ -81,19 +81,18 @@ export function useThree(container: HTMLDivElement) {
 
   animate()
 
-  // ---- 窗口缩放适配 ----
-  function onResize() {
+  // ---- 容器尺寸适配（ResizeObserver 覆盖全屏/窗口缩放等所有场景） ----
+  const resizeObserver = new ResizeObserver(() => {
     camera.aspect = container.clientWidth / container.clientHeight
     camera.updateProjectionMatrix()
     renderer.setSize(container.clientWidth, container.clientHeight)
-  }
-
-  window.addEventListener('resize', onResize)
+  })
+  resizeObserver.observe(container)
 
   // ---- 组件卸载时清理资源 ----
   onUnmounted(() => {
     if (animationId) cancelAnimationFrame(animationId)  // 停止渲染循环
-    window.removeEventListener('resize', onResize)      // 移除 resize 监听
+    resizeObserver.disconnect()                         // 停止尺寸监听
     renderer.dispose()                                  // 释放 WebGL 上下文
     geometry.dispose()                                  // 释放几何体内存
     material1.dispose()                                  // 释放材质内存
