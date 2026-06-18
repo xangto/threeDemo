@@ -8,6 +8,13 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: Home,
+      meta: { title: '项目介绍', icon: 'house' },
+    },
+    {
+      path: '/practice',
+      name: 'practice',
+      component: () => import('@/views/Practice.vue'),
+      meta: { title: '练习', icon: 'box' },
     },
   ],
 })
