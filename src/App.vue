@@ -3,7 +3,7 @@
     <!-- 侧边菜单栏 -->
     <aside class="w-[220px] h-full bg-[#1a1a2e] overflow-y-auto shrink-0">
       <div
-        class="h-[100px] flex items-center justify-center text-white text-lg font-bold border-b border-white/10 cursor-pointer hover:text-[#409eff] transition-colors"
+        class="h-[100px] flex items-center justify-center text-white text-2xl font-bold border-b border-white/10 cursor-pointer hover:text-[#409eff] transition-colors"
         @click="router.push('/')"
       >
         Three.js + Vue3
@@ -30,7 +30,7 @@
     </aside>
 
     <!-- 主内容区 -->
-    <main class="flex-1 p-4 h-full overflow-auto bg-white">
+    <main class="flex-1 p-6 h-full overflow-auto bg-white">
       <router-view />
     </main>
   </div>

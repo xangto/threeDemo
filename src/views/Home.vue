@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-full bg-white">
-    <div class="flex flex-col gap-4 p-6">
+    <div class="flex flex-col gap-4">
       <el-card shadow="hover">
         <template #header>
           <span class="font-semibold text-base">📋 概述</span>
